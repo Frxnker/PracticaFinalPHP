@@ -1,11 +1,11 @@
 services:
   web:
-    image: php:8.3-apache
+    build: .
     container_name: web
     ports:
       - "8080:80"
     volumes:
-      - ./src:/var/www/html        # tu código PHP local se monta en Apache
+      - ./:/var/www/html
     depends_on:
       - db
 
@@ -14,16 +14,14 @@ services:
     container_name: db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: miapp
-      MYSQL_USER: usuario
-      MYSQL_PASSWORD: usuario
+      MYSQL_ROOT_PASSWORD: laquesea
+      MYSQL_DATABASE: tablon_nuncios
     ports:
       - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql      # los datos no se pierden al borrar el contenedor
-      - ./sql:/docker-entrypoint-initdb.d   # .sql que se ejecutan la primera vez
-
+      - db_data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d
+      
   phpmyadmin:
     image: phpmyadmin
     ports:
