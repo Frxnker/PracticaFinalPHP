@@ -2,19 +2,27 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use App\Core\Database;
-use App\Models\User;
+use App\Controllers\AuthController;
 
-$db = new Database();
-var_dump($db->fetchAll('SELECT 1 AS prueba'));
+session_start();
 
-$users = new User($db);
+$db     = new Database();
+$auth   = new AuthController($db);
+$action = $_GET['action'] ?? 'home';
+$isPost = $_SERVER['REQUEST_METHOD'] === 'POST';
 
-$id = $users->insert([
-    'email'    => 'capitantrueno@iescelia.org',
-    'username' => 'capitan',
-    'password' => password_hash('la-contraseña-que-sea', PASSWORD_DEFAULT),
-]);
-
-$users->update($id, ['username' => 'trueno']);
-var_dump($users->getById($id));
-$users->delete($id);
+switch ($action) {
+    case 'register':
+        $isPost ? $auth->register() : $auth->showRegisterForm();
+        break;
+    case 'login':
+        $isPost ? $auth->login() : $auth->showLoginForm();
+        break;
+    case 'logout':
+        $auth->logout();
+        break;
+    default:
+        require __DIR__ . '/../src/Views/partials/header.php';
+        require __DIR__ . '/../src/Views/home.php';
+        require __DIR__ . '/../src/Views/partials/footer.php';
+}
