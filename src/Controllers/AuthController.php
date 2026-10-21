@@ -4,29 +4,16 @@ namespace App\Controllers;
 
 use App\Core\Database;
 use App\Models\User;
+use App\Core\Controller;
 use PDOException;
 
-class AuthController
+class AuthController extends Controller
 {
     private User $users;
 
     public function __construct(Database $db)
     {
         $this->users = new User($db);
-    }
-
-    private function render(string $view, array $data = []): void
-    {
-        extract($data);
-        require __DIR__ . '/../Views/partials/header.php';
-        require __DIR__ . "/../Views/$view.php";
-        require __DIR__ . '/../Views/partials/footer.php';
-    }
-
-    private function redirect(string $url): void
-    {
-        header("Location: $url");
-        exit;
     }
 
     public function showRegisterForm(array $errors = []): void
@@ -92,7 +79,7 @@ class AuthController
         $_SESSION['user_id'] = $id;
         $_SESSION['email']   = $email;
 
-        $this->redirect('?action=home');
+        $this->redirect('?action=index');
     }
 
     public function logout(): void
@@ -103,6 +90,6 @@ class AuthController
         $_SESSION = [];
         session_destroy();
 
-        $this->redirect('?action=home');
+        $this->redirect('?action=index');
     }
 }

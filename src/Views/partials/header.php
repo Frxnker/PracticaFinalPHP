@@ -6,9 +6,10 @@
 </head>
 <body>
 <header>
-    <a href="?action=home">Tablón de anuncios</a>
+    <a href="?action=index">Tablón de anuncios</a>
     <nav>
         <?php if (isset($_SESSION['user_id'])): ?>
+            <a href="?action=create">Publicar</a>
             <span><?= htmlspecialchars($_SESSION['email']) ?></span>
             <a href="?action=logout">Cerrar sesión</a>
         <?php else: ?>
@@ -17,4 +18,10 @@
         <?php endif; ?>
     </nav>
 </header>
+
+<?php if (!empty($_SESSION['flash'])): ?>
+    <p><strong><?= htmlspecialchars($_SESSION['flash']) ?></strong></p>
+    <?php unset($_SESSION['flash']); ?>
+<?php endif; ?>
+
 <main>
