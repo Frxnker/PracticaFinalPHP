@@ -28,10 +28,10 @@ abstract class Controller
         return $_SESSION['user_id'] ?? null;
     }
 
-    protected function requireLogin(): void
+    protected function requireLogin(string $message = 'Tienes que iniciar sesión para publicar.'): void
     {
         if ($this->currentUserId() === null) {
-            $this->flash('Tienes que iniciar sesión para publicar.');
+            $this->flash($message);
             $this->redirect('?action=login');
         }
     }

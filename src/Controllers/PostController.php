@@ -5,14 +5,17 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Core\Database;
 use App\Models\Post;
+use App\Models\Comment;
 
 class PostController extends Controller
 {
     private Post $posts;
+    private Comment $comments;
 
     public function __construct(Database $db)
     {
         $this->posts = new Post($db);
+        $this->comments = new Comment($db);
     }
 
     public function index(): void
@@ -23,12 +26,13 @@ class PostController extends Controller
         $this->render('posts/index', ['posts' => $posts, 'q' => $q]);
     }
 
-    public function show(int $id): void
-    {
-        $post = $this->posts->findWithAuthor($id) ?? $this->notFound();
+   public function show(int $id): void
+   {
+       $post = $this->posts->findWithAuthor($id) ?? $this->notFound();
+       $comments = $this->comments->findByPost($id) ?? [];
 
-        $this->render('posts/show', ['post' => $post]);
-    }
+       $this->render('posts/show', ['post' => $post, 'comments' => $comments]);
+   }
 
     public function create(): void
     {
