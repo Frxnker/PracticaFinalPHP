@@ -5,8 +5,18 @@ use App\Core\Database;
 use App\Controllers\AuthController;
 use App\Controllers\PostController;
 use App\Controllers\CommentController;
+use App\Core\Csrf;
 
 session_start();
+
+// Escudo CSRF: ningún POST pasa sin un token válido
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !Csrf::isValid($_POST['csrf_token'] ?? null)) {
+    http_response_code(403);
+    require __DIR__ . '/../src/Views/partials/header.php';
+    require __DIR__ . '/../src/Views/errors/csrf.php';
+    require __DIR__ . '/../src/Views/partials/footer.php';
+    exit;
+}
 
 $db     = new Database();
 $auth   = new AuthController($db);

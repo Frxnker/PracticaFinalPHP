@@ -14,6 +14,7 @@
     <form method="post" action="?action=destroy&id=<?= (int) $post['id'] ?>"
           onsubmit="return confirm('¿Seguro que quieres borrar esta publicación?');"
           style="display:inline">
+        <?= App\Core\Csrf::field() ?>
         <button type="submit">Borrar</button>
     </form>
 <?php endif; ?>
@@ -37,6 +38,7 @@
 
     <?php if (isset($_SESSION['user_id'])): ?>
         <form method="post" action="?action=comment&id=<?= (int) $post['id'] ?>">
+            <?= App\Core\Csrf::field() ?>
             <label>Añadir comentario<br>
                 <textarea name="body" rows="4" cols="60" required></textarea>
             </label><br>

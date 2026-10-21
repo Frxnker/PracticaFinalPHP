@@ -3,6 +3,7 @@
 <?php endforeach; ?>
 
 <form method="post" action="<?= htmlspecialchars($formAction) ?>">
+    <?= App\Core\Csrf::field() ?>
     <label>Título<br>
         <input type="text" name="title" maxlength="150" required
                value="<?= htmlspecialchars($post['title']) ?>">
