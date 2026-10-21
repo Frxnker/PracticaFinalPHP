@@ -40,4 +40,9 @@ class Database
         $row = $this->query($sql, $params)->fetch();
         return $row ?: null;
     }
+
+        public function lastInsertId(): int
+    {
+        return (int) $this->pdo->lastInsertId();
+    }
 }

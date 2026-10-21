@@ -15,7 +15,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: laquesea
-      MYSQL_DATABASE: tablon_nuncios
+      MYSQL_DATABASE: tablon_anuncios
     ports:
       - "3306:3306"
     volumes:
