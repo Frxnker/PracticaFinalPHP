@@ -12,7 +12,7 @@ services:
   db:
     image: mysql:8.0
     container_name: db
-    restart: always
+    restart: no
     environment:
       MYSQL_ROOT_PASSWORD: laquesea
       MYSQL_DATABASE: tablon_anuncios
