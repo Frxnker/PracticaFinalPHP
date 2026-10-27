@@ -2,6 +2,7 @@ services:
   web:
     build: .
     container_name: web
+    command: bash -c "composer dump-autoload && apache2-foreground"
     ports:
       - "8080:80"
     volumes:
